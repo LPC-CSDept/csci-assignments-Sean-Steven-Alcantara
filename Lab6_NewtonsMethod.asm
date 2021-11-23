@@ -6,6 +6,7 @@
 # Write a program that does the same thing as newton's method
 # Newton's method is a way to compute the square root of a number
 # formula is x' = ( x+ (n/x) )/2 with "n" as a real number whose square root is being solved
+#
 
 	.data
 n:	.float	144.0
@@ -50,6 +51,6 @@ end:	la	$a0, nval	# address of "n = "
 	li	$v0, 10		# end program code
 	syscall
 	
-	
+## end of file
 
 	
