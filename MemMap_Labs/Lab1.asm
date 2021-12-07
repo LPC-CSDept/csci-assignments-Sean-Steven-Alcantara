@@ -23,4 +23,10 @@ wr_wait:
         lw  $t1, 8($t0)     # get stored 4 bytes of data from transmitter control address
         nop                 # delay slot
         andi    $t1, $t1, 1 # get 1 or 0 from LSB
-        beq $t1, $zero, wr_wait #
+        beq $t1, $zero, wr_wait # if 0 then not ready, so loop back
+        sw  $v0, 12($t0)    # write to output
+
+        li  $v0, 10         # exit program syscall code
+        syscall
+
+## end of file
