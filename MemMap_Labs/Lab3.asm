@@ -31,4 +31,5 @@ wr_wait:    lw      $t1, 8($t0)     # get value from transmitter control address
             sw      $v1, 12($t0)    # print the units digit to output
             b       wr_wait         # loop back to print next digit
             nop
-end:        
+end:        li      $v0, 10         # exit program code
+            syscall
