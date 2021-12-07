@@ -13,9 +13,9 @@ main:
             li      $t2, 42         # number to be printed
             li      $t3, 10         # will be used to get the tens and unit digit from num to print
             div     $t2, $t3        # 42/10 or 42%10
-            mflo    $v1             # $v1 = 42/10
+            mflo    $v0             # $v1 = 42/10
             addiu   $v0, $v0, 48    # to get the ASCII code of the tens digit
-            mfhi    $v0             # $v0 = 42%10
+            mfhi    $v1             # $v0 = 42%10
             addiu   $v1, $v1, 48    # to get the ASCII code of the unit digit
             lui     $t0, 0xffff     # base address for mem-map I/O
             li      $t2, 2          # number of digits to be printed
