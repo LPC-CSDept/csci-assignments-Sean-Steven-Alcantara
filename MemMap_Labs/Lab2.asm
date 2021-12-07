@@ -23,7 +23,8 @@ rd_wait:
         beqz    $t2, end        # if all digits are taken then end loop
         nop
         li      $t4, 10 
-        mult    $s1, $t4        # get tens value of printed output
+        mult    $s0, $t4        # get tens value of printed output
+        mflo    $s1
         j       rd_wait         # loop back to get next digit
 end:
         add     $a0, $s1, $s0   # get a 2 digit decimal by combining the inputs
