@@ -18,8 +18,8 @@ rd_wait:
         beqz    $t1, rd_wait    # if input not yet taken then loop back
         nop
         lw      $s0, 4($t0)     # store the digit in $s0
-        addiu   $t2, $t2, -1     # 1 less digit to take
-        addiu   $s0, $s0, -48    # get the decimal value of 2nd digit
+        addiu   $t2, $t2, -1    # 1 less digit to take
+        addiu   $s0, $s0, -48   # get the decimal value of 2nd digit
         beqz    $t2, end        # if all digits are taken then end loop
         nop
         li      $t4, 10 
