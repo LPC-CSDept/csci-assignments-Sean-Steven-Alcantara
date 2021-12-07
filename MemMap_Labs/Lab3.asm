@@ -3,5 +3,11 @@
 # Sean Steven Alcantara
 # 12/7/2021
 # Lab3 for Memory Mapped IO in CS21
-# Read two digits using memory-mapped IO and print decimal value through syscall
+# Print the decimal value using Memory-mapped I/O
 #
+
+    .text
+    .globl main
+
+main:   lui $t0, 0xffff     # base address of Mem-mapIO
+        li  $t2, 42         #
