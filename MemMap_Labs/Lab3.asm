@@ -21,12 +21,15 @@ wr_wait:    lw      $t1, 8($t0)     # get value from transmitter control address
             andi    $t1, $t1, 1     # get a 1 for ready 0 for if not
             beqz    $t1, wr_wait    # loop back if not ready
             nop
+            mflo    $v1             # $v1 = 42/10 = 4
+            addiu   $v0, $v1, 48    # to get the ASCII code of the tens digit
             sw      $v0, 12($t0)    # print the tens digit to output
             addiu   $t2, $t2, -1    # 1 less digit to print
-            beqz    $t2, end        # end loop if no more digits to be printed
-            nop
-            sw      $v1, 12($t0)    # print the units digit to output
             b       wr_wait         # loop back to print next digit
+            nop
+            mfhi    $v1             # $v1 = 42%10 = 2
+            sw      $v1, 12($t0)    # print the units digit to output
+            beqz    $t2, end        # end loop if no more digits to be printed
             nop
 end:        li      $v0, 10         # exit program code
             syscall
