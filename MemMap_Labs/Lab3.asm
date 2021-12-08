@@ -27,12 +27,12 @@ wr_wait:    lw      $t1, 8($t0)     # get value from transmitter control address
             mflo    $v0             # $v0 = 42/10 = 4
             addiu   $v1, $v0, 48    # get ASCII code for the tens digit
             sw      $v1, 12($t0)    # print the tens digit to output
-            addiu   $t2, $t2, 1     # 1 less digit to print
+            addiu   $t2, $t2, -1     # 1 less digit to print
             j       wr_wait         # loop back to print next digit
             nop
 dig2:       mfhi    $v0             # $v0 = 42%10 = 2
             addiu   $v1, $v0, 48    # get ASCII code for units digit
             sw      $v1, 12($t0)    # print units digit to output
-            
+
 end:        li      $v0, 10         # exit program code
             syscall
