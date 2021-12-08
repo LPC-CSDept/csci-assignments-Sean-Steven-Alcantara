@@ -36,3 +36,5 @@ dig2:       mfhi    $v0             # $v0 = 42%10 = 2
 
 end:        li      $v0, 10         # exit program code
             syscall
+
+## end of file
