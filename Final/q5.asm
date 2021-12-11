@@ -7,3 +7,11 @@
 # using syscall. If you get 1, 2, and 3 then print 123 using one syscall
 #
 
+    .data
+message:    .asciiz "The number you typed is:"
+
+    .text
+    .globl main
+
+main:
+    
