@@ -20,7 +20,17 @@ rd_wait:
         nop
         andi    $t1, $t1, 1         # clear all bits except LSB to check if 0 or 1
         beqz    $t1, rd_wait        # loop back if 0, input not ready
+        nop
 
         lw      $t4, 4($t0)         # input is ready so get word from receiver data
+        nop
         addiu   $t4, $t4, -48       # to get decimal value of digit entered. 48 ASCII is 0 decimal
-        
+        addiu   $t5, $t5, -1        # one less digit to take
+        beqz    $t5, end            # if $t5 == 0 then all 3 digits already taken. End loop
+        nop
+
+end:
+
+
+
+## end of file
