@@ -29,6 +29,11 @@ rd_wait:
         beqz    $t5, end            # if $t5 == 0 then all 3 digits already taken. End loop
         nop
 
+        li      $t6, 100            # will be multiplied to 1st digit to get hundreds place
+        mult    $t4, $t6            # input1 * 100
+        mflo    $t2                 # $t2 = input1 * 100
+        j       rd_wait             # loop back
+        nop
 end:
 
 
