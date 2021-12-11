@@ -20,4 +20,7 @@ rd_wait:
         nop
         andi    $t1, $t1, 1         # clear all bits except LSB to check if 0 or 1
         beqz    $t1, rd_wait        # loop back if 0, input not ready
+
+        lw      $t4, 4($t0)         # input is ready so get word from receiver data
+        addiu   $t4, $t4, -48       # to get decimal value of digit entered. 48 ASCII is 0 decimal
         
