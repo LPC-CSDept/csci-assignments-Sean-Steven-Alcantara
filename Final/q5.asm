@@ -15,6 +15,7 @@ message:    .asciiz "The number you typed is: "
 
 main:   lui     $t0, 0xffff         # base address of MM I/O
         li      $t5, 3              # how many digits are being from input
+        li      $t7, 1              # will be used as comparison when getting 2nd digit              
 rd_wait:
         lw      $t1, 0($t0)         # get word stored from address of receiver control
         nop
@@ -26,6 +27,8 @@ rd_wait:
         nop
         addiu   $t4, $t4, -48       # to get decimal value of digit entered. 48 ASCII is 0 decimal
         addiu   $t5, $t5, -1        # one less digit to take
+        beq     $t7, $t5, dig2      # branch to proccess for 2nd digit
+        nop
         beqz    $t5, end            # if $t5 == 0 then all 3 digits already taken. End loop
         nop
 
