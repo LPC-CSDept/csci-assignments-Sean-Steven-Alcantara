@@ -13,5 +13,11 @@ message:    .asciiz "The number you typed is:"
     .text
     .globl main
 
-main:
-    
+main:   lui     $t0, 0xffff         # base address of MM I/O
+        li      $t5, 3              # how many digits are being from input
+rd_wait:
+        lw      $t1, 0($t0)         # get word stored from address of receiver control
+        nop
+        andi    $t1, $t1, 1         # clear all bits except LSB to check if 0 or 1
+        beqz    $t1, rd_wait        # loop back if 0, input not ready
+        
