@@ -8,7 +8,7 @@
 #
 
     .data
-message:    .asciiz "The number you typed in decimal is: "
+str:    .asciiz "The number you typed in decimal is: "
 
     .text
     .globl main
@@ -38,13 +38,13 @@ rd_wait:
         j       rd_wait             # loop back
         nop
 
-dig2:   li      $t6, 10            # will be multiplied to 2nd digit to get tens place
+dig2:   li      $t6, 10             # will be multiplied to 2nd digit to get tens place
         mult    $t4, $t6            # input2 * 10
         mflo    $t3                 # $t3 = input1 * 10
         j       rd_wait             # loop back
         nop
 
-end:    lw      $a0, message        # string to print
+end:    la      $a0, str            # address of string to print
         li      $v0, 4              # print string code
         syscall
         addu    $a0, $t2, $t3       # (input1 * 100) + (input2 * 10)
