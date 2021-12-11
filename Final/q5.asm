@@ -34,6 +34,13 @@ rd_wait:
         mflo    $t2                 # $t2 = input1 * 100
         j       rd_wait             # loop back
         nop
+
+dig2:   li      $t6, 100            # will be multiplied to 2nd digit to get tens place
+        mult    $t4, $t6            # input2 * 10
+        mflo    $t3                 # $t3 = input1 * 10
+        j       rd_wait             # loop back
+        nop
+
 end:
 
 
