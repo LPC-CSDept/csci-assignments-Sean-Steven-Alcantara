@@ -41,7 +41,11 @@ dig2:   li      $t6, 100            # will be multiplied to 2nd digit to get ten
         j       rd_wait             # loop back
         nop
 
-end:
+end:    addu    $a0, $t2, $t3       # (input1 * 100) + (input2 * 10)
+        addu    $a0, $a0, $t4       # (input1 * 100) + (input2 * 10) + (input3)
+        li      $v0, 1              # print integer code
+        syscall
+
 
 
 
