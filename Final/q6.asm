@@ -39,4 +39,12 @@ rd_write:
         li      $v0, 10         # exit program
         syscall
 
+
+#Kernel text
+
+    .ktext  800000180
+
+        mfc0    $k0, $13        # get the bit pattern in cause register
+        srl     $a0, $k0, 2     # to extract the exception code fields
+        
 ## end of file
