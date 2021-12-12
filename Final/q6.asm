@@ -20,12 +20,12 @@ main:
         ori     $a0, $zero, 0x2     # to enable interrupt in the receiver control
         sw      $a0, 0($t0)         # write to the receiver control
         
-        rd_wait:
+rd_wait:
         lw      $t1, 0($t0)         # get word from the receiver control
         andi    $t1, $t1, 1         # to check if the LSB in receiver control is 1 or 0
         beqz    $t1, rd_wait        # loop back if 0. input is not ready
         nop
-        sw      $s0, 4($t0)         # input is ready. Put the word in receiver data into $s0
+        lw      $s0, 4($t0)         # input is ready. Put the word in receiver data into $s0
 
 rd_write:
         lw      $t1, 8($t0)         # get word from the transmitter control
@@ -60,7 +60,7 @@ s2: .word   0       # ($t and $s) whenever in the interrupt handler
         bne     $a0, $zero, kEnd    # interrupt only if 0, 0 is hardware exception
         
         li      $t0, 113            # ASCII for "q"
-        bne     $t0, $s0, kdone     # $s0 has the user input. If this is not q then end interrupt.
+        bne     $t0, $s0, kEnd      # $s0 has the user input. If this is not q then end interrupt.
         nop
         li      $v0, 10             # exit program, if q was the input
         syscall
@@ -72,5 +72,6 @@ kEnd:
         andi    $a0, $k0, 0xfffd    # clear exception level field
         mtc0    $a0, $12            # write back to status register
         eret                        # return from interrupt
+        nop
 
 ## end of file
