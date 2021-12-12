@@ -30,6 +30,10 @@ rd_write:
         lw      $t1, 8($t0)     # get word from the transmitter control
         andi    $t1, $t1, 1     # to check if the LSB in transmitter control is 1 or 0
         beqz    $t1, rd_wait    # loop back if 0. output is not ready
+        nop
+        sw      $s0, 12($t0)    # print the user input onto console
 
+        j       rd_wait         # wait for the next user input
+        nop
 
 ## end of file
