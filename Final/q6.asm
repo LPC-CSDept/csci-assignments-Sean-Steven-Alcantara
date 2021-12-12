@@ -48,7 +48,6 @@ s1: .word   0       # these will be used to store whatever is in the general reg
 s2: .word   0       # ($t and $s) whenever in the interrupt handler
                     # the general registers will eventually be restored near the kernel text end
 
-
 # Kernel text
 
     .ktext  800000180
@@ -61,7 +60,8 @@ s2: .word   0       # ($t and $s) whenever in the interrupt handler
         bne     $a0, $zero, kEnd    # interrupt only if 0, 0 is hardware exception
         
         li      $t0, 113            # ASCII for "q"
-        
+        bne     $t0, $s0, kdone     # $s0 has the user input. If this is not q then end interrupt.
+        nop
         li      $v0, 10             # exit program, if q was the input
         syscall
 kEnd:
