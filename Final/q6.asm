@@ -50,4 +50,10 @@ rd_write:
         bne     $a0, $zero, kEnd    # interrupt only if 0, 0 is hardware exception
 
 kEnd:
+        mtc0    $zero, $13          # clear cause register
+        mfc0    $k0, $12            # Get bit pattern in status register
+        andi    $a0, $k0, 0xfffd    # clear exception level field
+        mtc0    $a0, $12            # write back to status register
+        eret                        # return from interrupt
+
 ## end of file
