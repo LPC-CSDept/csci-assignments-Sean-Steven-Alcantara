@@ -12,5 +12,7 @@
 
 main:
 
-
+        mfc0    $a0, $12        # read from status register
+        ori     $a0, 0xff11     # enable all interrupts. This will set the bit for user mode and interrupt enable fields in the status register
+        mtco    $a0, $12        # write to status register
 ## end of file
