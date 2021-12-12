@@ -36,4 +36,7 @@ rd_write:
         j       rd_wait         # wait for the next user input
         nop
 
+        li      $v0, 10         # exit program
+        syscall
+
 ## end of file
