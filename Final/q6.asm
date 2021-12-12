@@ -39,8 +39,15 @@ rd_write:
         li      $v0, 10             # exit program
         syscall
 
+# Kernel data
 
-#Kernel text
+    .kdata
+
+s1: .word   0
+s2: .word   0
+s3: .word   0
+
+# Kernel text
 
     .ktext  800000180
 
@@ -49,6 +56,7 @@ rd_write:
         andi    $a0, $a0, 0x1f      # get the exception code. This is the lower 5 bits
         bne     $a0, $zero, kEnd    # interrupt only if 0, 0 is hardware exception
 
+        li      $t9, 113            # ASCII for "q"
 kEnd:
         mtc0    $zero, $13          # clear cause register
         mfc0    $k0, $12            # Get bit pattern in status register
