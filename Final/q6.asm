@@ -19,7 +19,30 @@ main:
         lui     $t0, 0xffff         # base address of MMIO
         ori     $a0, $zero, 0x2     # to enable interrupt in the receiver control
         sw      $a0, 0($t0)         # write to the receiver control
-rd_wait:
+
+
+        li      $v0, 10             # exit program
+        syscall
+
+# Kernel data
+
+    .kdata
+
+s1: .word   0       # these will be used to store whatever is in the general registers
+s2: .word   0       # ($t and $s) whenever in the interrupt handler
+s3: .word   0       # the general registers will eventually be restored near the kernel text end
+s4: .word   0
+
+# Kernel text
+
+    .ktext  800000180
+
+        mfc0    $k0, $13            # get the bit pattern in cause register
+        srl     $a0, $k0, 2         # to extract the exception code fields
+        andi    $a0, $a0, 0x1f      # get the exception code. This is the lower 5 bits
+        bne     $a0, $zero, kEnd    # interrupt only if 0, 0 is hardware exception
+
+        rd_wait:
         lw      $t1, 0($t0)         # get word from the receiver control
         andi    $t1, $t1, 1         # to check if the LSB in receiver control is 1 or 0
         beqz    $t1, rd_wait        # loop back if 0. input is not ready
@@ -35,28 +58,8 @@ rd_write:
 
         j       rd_wait             # wait for the next user input
         nop
-
-        li      $v0, 10             # exit program
-        syscall
-
-# Kernel data
-
-    .kdata
-
-s1: .word   0
-s2: .word   0
-s3: .word   0
-
-# Kernel text
-
-    .ktext  800000180
-
-        mfc0    $k0, $13            # get the bit pattern in cause register
-        srl     $a0, $k0, 2         # to extract the exception code fields
-        andi    $a0, $a0, 0x1f      # get the exception code. This is the lower 5 bits
-        bne     $a0, $zero, kEnd    # interrupt only if 0, 0 is hardware exception
-
-        li      $t9, 113            # ASCII for "q"
+        
+        li      $t2, 113            # ASCII for "q"
 kEnd:
         mtc0    $zero, $13          # clear cause register
         mfc0    $k0, $12            # Get bit pattern in status register
