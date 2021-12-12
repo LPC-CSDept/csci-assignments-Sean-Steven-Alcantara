@@ -14,7 +14,7 @@ main:
 
         mfc0    $a0, $12            # read from status register
         ori     $a0, 0xff11         # enable all interrupts. This will set the bit for user mode and interrupt enable fields in the status register
-        mtco    $a0, $12            # write to status register
+        mtc0    $a0, $12            # write to status register
 
         lui     $t0, 0xffff         # base address of MMIO
         ori     $a0, $zero, 0x2     # to enable interrupt in the receiver control
@@ -50,7 +50,7 @@ s2: .word   0       # ($t and $s) whenever in the interrupt handler
 
 # Kernel text
 
-    .ktext  800000180
+    .ktext  0x80000180
 
         sw      $t0, s1             # store the values in the general registers... 
         sw      $s0, s2             # used, to restore later
