@@ -1,0 +1,34 @@
+Code Algorithm:
+
+$t0 = base address of MMIO
+
+rd_wait
+get 32 bits from receiver control(0xffff0000) then check if LSB is 1 or 0 using and
+If 0, then input is not ready yet.
+
+else it is 1, so go to receiver data (0xffff0004) to get the value stored in there. Place it in $t4
+subtract 48 from the input in $t4 to get the actual decimal
+
+subtract 1 to digit count to know how many more digits will be taken by input
+then multiply the number depending on what input number it is
+if its the 1st digit, multiply it by 100 then store in $t4
+if its 2nd digit, multiply by 10 then store in $t5
+if its the 3rd digit, leave it in $t4
+
+after getting all 3 digits add up $t4, $t5, $t6 then put it in $a0
+print out the int value of $a0
+end program
+
+
+Only general registers are used in this program. The temp registers ($t).
+$t0 holds base address of MMIO
+$t1 is used for getting the value of receiver control to check if its ready or not
+$t2 to $t4 holds the decimal values of the user input. $t2 is the 1st, and $t4 is 3rd digit
+$t5 and $t7 is used for comparison in if-else statements
+
+
+
+
+
+
+
