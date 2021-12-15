@@ -1,5 +1,5 @@
 #
-# q5.asm
+# final1.asm
 # Sean Steven Alcantara
 # 12/11/2021
 # Question 1 for Final Exam(Programming QUestions) in CS21
