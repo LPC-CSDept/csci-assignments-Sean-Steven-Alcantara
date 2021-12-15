@@ -25,10 +25,3 @@ $t0 holds base address of MMIO
 $t1 is used for getting the value of receiver control to check if its ready or not
 $t2 to $t4 holds the decimal values of the user input. $t2 is the 1st, and $t4 is 3rd digit
 $t5 and $t7 is used for comparison in if-else statements
-
-
-
-
-
-
-

@@ -1,0 +1,71 @@
+
+
+
+Enable the interrupts in $12, the status register by doing this. x means the bit can either be 1 or 0
+
+Status register: xxxx xxxx xxxx xxxx 1111 1111 xxx1 xxx1
+
+load the base address of MMIO
+then change value of receiver control to enable interrupt.
+
+Receiver control: xxxx xxxx xxxx xxxx xxxx xxxx xxxx xx1x
+
+# Go on a loop that runs 10000000 times. 
+for($t0 = 10000000; $t0 > 0; $t0-- ){
+
+}
+end program
+
+
+
+# KERNEL text
+
+If at any point in the program keyboard is pressed, go to interrupt handler in the kernel text segment{
+
+    store the values of the registers that will be used by kernel text into s1 to s6.
+    get bit pattern in the cause register to get exception code place it in $k0
+    cause register: xxxx xxxx xxxx xxxx xxxx xxxx xaaa aaxx
+                                                   |    |   
+                                                   6    2
+    Bit 2 to 6 is exception code field
+    
+    srl - shift right 2 times $k0 and place in $a0
+    00xx xxxx xxxx xxxx xxxx xxxx xxxa aaaa
+                                     |    |
+                                     4    0
+                                     exception code
+    
+    clear all bits except bits 0 to 4 by bit operation $a0 and 0x1F
+    exception code = 0000 0000 0000 0000 0000 0000 000a aaaa
+
+    if(exception code == 0){
+        $s0 = 32 bit value in receiver data
+        if($s0 = 'q'){
+            exit program
+        }
+        else{
+            transmitterdata(0xffff000C) = $s0
+        }
+
+    }
+    else{
+        goto k_end
+    }
+    
+    kend: place back the values of s1 to s6 to its previous registers
+    clear cause register # 0000 0000 0000 0000 0000 0000 0000 0000
+    
+    $k0 = status register # 0000 0000 0000 0000 xxxx xxxx xxxx 1x11
+                                                                 |
+                                                                Exception level
+    
+    clear exception level field # 0000 0000 0000 0000 xxxx xxxx xxxx 1x01
+    write back to status register
+    return to text segment
+}
+
+
+$k special registers was only used in kernel segment. Read and write to $12 and $13
+$s general registers. Used to store user input values
+$t general registers. Use for any temporary values
+
