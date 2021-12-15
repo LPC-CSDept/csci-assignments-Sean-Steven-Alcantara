@@ -20,23 +20,9 @@ main:
         ori     $a0, $zero, 0x2     # to enable interrupt in the receiver control
         sw      $a0, 0($t0)         # write to the receiver control
         
-rd_wait:
-        lw      $t1, 0($t0)         # get word from the receiver control
-        nop
-        andi    $t1, $t1, 1         # to check if the LSB in receiver control is 1 or 0
-        beqz    $t1, rd_wait        # loop back if 0. input is not ready
-        nop
-        lw      $s0, 4($t0)         # input is ready. Put the word in receiver data into $s0
-
-rd_write:
-        lw      $t1, 8($t0)         # get word from the transmitter control
-        nop
-        andi    $t1, $t1, 1         # to check if the LSB in transmitter control is 1 or 0
-        beqz    $t1, rd_write        # loop back if 0. output is not ready
-        nop
-        sw      $s0, 12($t0)        # print the user input onto console
-
-        j       rd_wait             # wait for the next user input
+        li      $t0, 1000000        # number of executions for the loop
+loop:   addiu   $t0, $t0, -1        # to avoid an "infinite loop"
+        bgtz    $t0, loop           # end loop if $t0 <= 0
         nop
 
         li      $v0, 10             # exit program
